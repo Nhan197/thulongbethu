@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bé Thư hiểu anh Nhăn được bao nhiêu ròi? 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff758c;
+            --secondary: #ff7eb3;
+            --bg-color: #ffe4e1;
+            --text-color: #d63384;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #fff0f5 100%);
+            color: #555;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Nền trái tim bay bay */
+        .hearts-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0; opacity: 0.5;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24'><path fill='%23ffb6c1' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>");
+            background-size: 80px 80px;
+        }
+
+        .container {
+            width: 100%; max-width: 600px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(255, 117, 140, 0.2);
+            position: relative; z-index: 10;
+            margin-top: 5vh;
+            border: 4px dashed #ffb6c1;
+        }
+
+        h1, h2, h3 { color: var(--text-color); text-align: center; }
+        
+        .hidden { display: none !important; }
+
+        /* MÀN HÌNH CHỜ */
+        #start-screen h1 { font-size: 32px; margin-bottom: 15px; line-height: 1.4;}
+        #start-screen p { text-align: center; font-size: 18px; font-weight: 600; color: #ff6b81; margin-bottom: 30px;}
+        
+        .btn-start {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: 50px;
+            padding: 15px 40px; font-size: 22px; font-weight: 900;
+            cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* MÀN HÌNH THI */
+        .progress-text { text-align: center; font-size: 18px; font-weight: 900; color: #ff9a9e; margin-bottom: 20px; }
+        .question-text { font-size: 20px; font-weight: 700; color: #2d3436; margin-bottom: 25px; text-align: justify; line-height: 1.5;}
+        
+        .option-btn {
+            display: block; width: 100%; background: #fff0f5;
+            border: 2px solid #ffb6c1; border-radius: 15px;
+            padding: 15px 20px; margin-bottom: 15px;
+            font-size: 16px; font-weight: 600; color: #555; text-align: left;
+            cursor: pointer; transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: #ffe4e1; transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
+        }
+        .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(0.98);}
+        .option-btn:disabled { cursor: not-allowed; }
+
+        /* MÀN HÌNH KẾT QUẢ */
+        #result-screen { text-align: center; }
+        .score-box { background: #fff0f5; padding: 20px; border-radius: 20px; margin: 20px 0; border: 2px dashed var(--primary);}
+        .score-box h1 { font-size: 50px; color: var(--primary); margin: 10px 0;}
+        .msg { font-size: 18px; font-weight: 700; color: #ff6b81; margin-bottom: 30px;}
+
+        /* ĐÁP ÁN CHI TIẾT */
+        .review-box { text-align: left; margin-top: 30px; }
+        .review-item { background: #fafafa; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #eee; }
+        .review-q { font-weight: 700; font-size: 16px; color: #333; margin-bottom: 15px;}
+        .review-opt { padding: 10px; margin-bottom: 8px; border-radius: 10px; font-size: 15px; font-weight: 600; background: #fff; border: 1px solid #ddd;}
+        
+        .thu-chose { border: 2px solid #ff4757; background: #fff0f0; color: #e74c3c; } /* Thư chọn sai */
+        .nhan-correct { border: 2px solid #2ed573; background: #eafaf1; color: #27ae60; } /* Ý của Nhăn */
+        .both-match { border: 2px solid #2ed573; background: #eafaf1; color: #27ae60; position: relative; } /* Thư chọn trúng ý Nhăn */
+
+        .badge { font-size: 12px; padding: 3px 8px; border-radius: 10px; color: white; float: right;}
+        .bg-thu { background: #ff4757; }
+        .bg-nhan { background: #27ae60; }
+        .bg-match { background: #2ed573; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgm" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/01/26/audio_d0c6ff1bc0.mp3" type="audio/mp3">
+    </audio>
+    <audio id="pop-sound">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b81ceeb3.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="hearts-bg"></div>
+
+    <div class="container" id="start-screen">
+        <h1>💕 Bé Thư hiểu anh Nhăn đòn dong được bao nhiêu ròi? 💕</h1>
+        <p>Bé có 60 phút để làm bài và chỉ được chọn 1 lần duy nhất, sai là không có đường lui đâu nhaaaa! 😘</p>
+        <button class="btn-start" onclick="startQuiz()">LÉT GÔ Ô Ô 🚀</button>
+    </div>
+
+    <div class="container hidden" id="quiz-screen">
+        <div class="progress-text">Câu <span id="current-q">1</span> / 20 🎀</div>
+        <div class="question-text" id="question-text">Câu hỏi sẽ hiện ở đây...</div>
+        <div id="options-container">
+            </div>
+    </div>
+
+    <div class="container hidden" id="result-screen">
+        <h2>🎉 TADA! ĐÃ CÓ KẾT QUẢ 🎉</h2>
+        <div class="score-box">
+            <h3>Độ thấu hiểu của Bé Thư:</h3>
+            <h1 id="score-text">0 / 20</h1>
+        </div>
+        <div class="msg" id="msg-text">Lời nhắn nhủ...</div>
+        
+        <h3 style="margin-top: 40px; border-bottom: 2px dashed #ffb6c1; padding-bottom: 10px;">👇 BÓC PHỐT ĐÁP ÁN 👇</h3>
+        <p style="font-size: 14px; margin-top: 10px; color: #555;">(Màu xanh: Sự thật của anh Nhăn | Màu đỏ: Bé Thư chọn sai)</p>
+        <div class="review-box" id="review-container">
+            </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ANH NHĂN SỬA ĐÁP ÁN Ở CHỖ "correct: X" NHÉ! 
+        // Quy ước: 0 là A, 1 là B, 2 là C, 3 là D
+        // ==========================================
+        const quizData = [
+            {
+                q: "Câu 1: Đâu là 'món ăn chân ái' của anh Nhăn mỗi khi thấy buồn chán hay căng thẳng?",
+                options: ["A. Đồ ngọt (Trà sữa, bánh ngọt, socola...)", "B. Đồ ăn vặt (Bánh tráng trộn, cá viên chiên...)", "C. Đồ fastfood (Gà rán, pizza, hamburger...)", "D. Một món nước nóng hổi (Phở, bún bò, lẩu...)"],
+                correct: 0 // Đổi số này thành đáp án đúng của anh nhé
+            },
+            {
+                q: "Câu 2: Thói quen buổi sáng thức dậy của anh Nhăn là gì?",
+                options: ["A. Bấm tắt báo thức và 'nướng' thêm 10 phút nữa.", "B. Bật dậy ngay lập tức và đi đánh răng rửa mặt.", "C. Nằm vọc điện thoại, lướt mạng xã hội một lúc mới dậy.", "D. Nhắn tin/gọi điện chào buổi sáng Bé Thư ngay."],
+                correct: 3
+            },
+            {
+                q: "Câu 3: Đâu là thể loại phim yêu thích nhất của anh Nhăn?",
+                options: ["A. Lãng mạn, tình cảm sướt mướt.", "B. Hành động, viễn tưởng, siêu anh hùng.", "C. Kinh dị, trinh thám, giật gân, 'hack não'.", "D. Hài hước, giải trí nhẹ nhàng hoặc hoạt hình."],
+                correct: 1
+            },
+            {
+                q: "Câu 4: Nơi hẹn hò/du lịch lý tưởng nhất trong mơ của anh Nhăn là ở đâu?",
+                options: ["A. Biển xanh, cát trắng, nắng vàng.", "B. Vùng núi cao, thời tiết se lạnh (Đà Lạt, Sapa...).", "C. Thành phố hiện đại, sầm uất, nhộn nhịp mua sắm.", "D. Một nơi hoang sơ, yên tĩnh, cắm trại hòa mình vào thiên nhiên."],
+                correct: 1
+            },
+            {
+                q: "Câu 5: Nếu được chọn nuôi thú cưng, anh Nhăn thuộc team nào?",
+                options: ["A. Team yêu Chó (Cún).", "B. Team yêu Mèo (Hoàng thượng).", "C. Thích các loài khác (Chim, cá, rùa, hamster...).", "D. Team không thích nuôi (Sợ bẩn, lười dọn...)."],
+                correct: 0
+            },
+            {
+                q: "Câu 6: Phản ứng thường thấy nhất của anh Nhăn khi tức giận là gì?",
+                options: ["A. Im lặng tuyệt đối, chiến tranh lạnh chờ tự hết giận.", "B. Bật khóc hoặc bộc lộ cảm xúc mạnh mẽ ra ngoài.", "C. Muốn 'ba mặt một lời', nói chuyện rõ ràng ngay lập tức.", "D. Bỏ đi chỗ khác, kiếm đồ ăn ngon hoặc đi chơi để xả giận."],
+                correct: 2
+            },
+            {
+                q: "Câu 7: Điểm yếu lớn nhất của anh Nhăn trong cuộc sống/công việc là gì?",
+                options: ["A. Não cá vàng, chúa tể hay quên.", "B. Nóng tính, dễ mất bình tĩnh khi có sự cố.", "C. Bệnh trì hoãn (Nước đến chân mới nhảy).", "D. Suy nghĩ quá nhiều (Overthinking) và hay tự làm khổ mình."],
+                correct: 3
+            },
+            {
+                q: "Câu 8: Cách tốt nhất để làm anh Nhăn vui lên khi đang tụt mood là gì?",
+                options: ["A. 'Cống nạp' món đồ ăn/thức uống yêu thích.", "B. Ôm một cái thật chặt và kiên nhẫn lắng nghe.", "C. Ting ting chuyển khoản hoặc tặng một món quà.", "D. Dẫn đi lượn lờ hóng gió, hít thở không khí."],
+                correct: 1
+            },
+            {
+                q: "Câu 9: Ngôn ngữ tình yêu (Love Language) mà anh Nhăn muốn nhận được nhất là gì?",
+                options: ["A. Lời nói yêu thương, khen ngợi và động viên.", "B. Cử chỉ âu yếm vật lý (Nắm tay, ôm ấp...).", "C. Dành thời gian chất lượng trọn vẹn bên nhau.", "D. Hành động chăm sóc thực tế hoặc những món quà."],
+                correct: 2
+            },
+            {
+                q: "Câu 10: Nỗi sợ hãi lớn nhất (hoặc thứ ghét nhất) của anh Nhăn là gì?",
+                options: ["A. Côn trùng/Động vật (Nhện, gián, chuột...).", "B. Sự lề mề, bị người khác cho leo cây.", "C. Chỗ đông người ồn ào, ngột ngạt, phải chen lấn.", "D. Sự dối trá, bị lừa gạt."],
+                correct: 3
+            },
+            {
+                q: "Câu 11: Anh Nhăn là kiểu người tiêu tiền như thế nào?",
+                options: ["A. Tiêu xài theo cảm xúc, thích là chốt đơn.", "B. Cực kỳ tiết kiệm, tính toán cẩn thận từng đồng.", "C. Rất có kế hoạch, biết cân bằng giữa chi tiêu và tiết kiệm.", "D. Rộng rãi khi đi ăn chơi nhưng keo kiệt khi mua đồ (hoặc ngược lại)."],
+                correct: 2
+            },
+            {
+                q: "Câu 12: Phong cách ăn mặc hàng ngày của anh Nhăn thiên về hướng nào?",
+                options: ["A. Chăm chút, bảnh bao, luôn bắt kịp trend.", "B. Năng động, thoải mái (Áo phông, quần jean, sneaker).", "C. Thanh lịch, trưởng thành, tối giản (Sơ mi, quần tây).", "D. Rất xuề xòa, mở tủ thấy cái gì là mặc cái đó."],
+                correct: 1
+            },
+            {
+                q: "Câu 13: Thói quen đi ngủ của anh Nhăn là gì?",
+                options: ["A. Cú đêm chính hiệu, thức cày phim/chơi game đến sáng.", "B. Ngủ sớm dậy sớm, sinh hoạt như người già.", "C. Ngủ rất say, sấm chớp nổ bên tai cũng không tỉnh.", "D. Rất khó ngủ, dễ bị tỉnh giấc bởi tiếng động nhỏ."],
+                correct: 0
+            },
+            {
+                q: "Câu 14: Thái độ của anh Nhăn đối với việc dọn dẹp việc nhà?",
+                options: ["A. Bệnh sạch sẽ, phòng lúc nào cũng phải ngăn nắp bóng loáng.", "B. Tùy hứng, lúc siêng thì dọn sạch, lúc lười thì bừa bộn.", "C. Rất ghét làm việc nhà, đùn đẩy được là đùn đẩy.", "D. Thích phân chia công bằng, ai xả ra người đó tự dọn."],
+                correct: 1
+            },
+            {
+                q: "Câu 15: Nếu trúng số độc đắc, việc đầu tiên anh Nhăn làm sẽ là gì?",
+                options: ["A. Gửi tiết kiệm hoặc đem đi đầu tư sinh lời an toàn.", "B. Mua sắm hàng hiệu, mua nhà, đổi xe hơi.", "C. Đặt ngay vé đi du lịch vòng quanh thế giới.", "D. Đưa hết cho Bé Thư quản lý hộ."],
+                correct: 3
+            },
+            {
+                q: "Câu 16: Kỷ niệm về buổi hẹn hò đầu tiên của hai đứa trong đầu anh Nhăn bây giờ ra sao?",
+                options: ["A. Nhớ rõ từng chi tiết nhỏ, Bé Thư mặc đồ gì, đi đâu, ăn gì.", "B. Chỉ nhớ mang máng địa điểm và vài câu chuyện.", "C. Nhớ nhất là cảm giác ngại ngùng, tim đập thình thịch lúc đó.", "D. Não cá vàng đã quét sạch trí nhớ ròi."],
+                correct: 0
+            },
+            {
+                q: "Câu 17: Anh Nhăn nghĩ bản thân có tật xấu nào khiến Bé Thư bực mình nhất?",
+                options: ["A. Hay cằn nhằn, càu nhàu, nói nhiều.", "B. Trả lời tin nhắn chậm hoặc hay lơ đãng khi nói chuyện.", "C. Ngủ nướng, lề mề, chuẩn bị lâu mỗi khi đi chơi.", "D. Hay chọc ghẹo, trêu đùa nhây khiến Bé Thư quạu."],
+                correct: 3
+            },
+            {
+                q: "Câu 18: Điều anh Nhăn coi trọng nhất để duy trì mối quan hệ lâu dài là gì?",
+                options: ["A. Sự thấu hiểu và biết lắng nghe nhau.", "B. Sự chung thủy và tin tưởng tuyệt đối.", "C. Luôn biết cách làm mới tình yêu, tạo sự lãng mạn.", "D. Sự nỗ lực cùng nhau xây dựng nền tảng tài chính tương lai."],
+                correct: 1
+            },
+            {
+                q: "Câu 19: Theo anh Nhăn nghĩ, lúc hai đứa ở bên nhau, ai là người nhõng nhẽo/trẻ con hơn?",
+                options: ["A. Chắc chắn là Bé Thư gòi.", "B. Chắc chắn là anh Nhăn.", "C. Tùy lúc, ai mệt mỏi hơn thì người đó nhõng nhẽo.", "D. Cả hai đều rất trưởng thành, hong ai trẻ con hết."],
+                correct: 1
+            },
+            {
+                q: "Câu 20: Điều gì ở Bé Thư khiến anh Nhăn 'đổ' gục nhất?",
+                options: ["A. Ngoại hình, khuôn mặt, nụ cười xinh xẻo.", "B. Tính cách hài hước, mặn mòi, nói chuyện rất dính.", "C. Sự chu đáo, hiền lành, luôn quan tâm chăm sóc.", "D. Sự thông minh, mang lại cảm giác là một người đồng hành hoàn hảo."],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userChoices = [];
+
+        // Âm thanh
+        const bgm = document.getElementById('bgm');
+        const popSound = document.getElementById('pop-sound');
+        bgm.volume = 0.3; // Nhạc nền nhỏ vừa đủ
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            bgm.play().catch(e => console.log("Trình duyệt chặn autoplay audio"));
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            document.getElementById('current-q').innerText = currentQuestion + 1;
+            document.getElementById('question-text').innerText = q.q;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            popSound.currentTime = 0;
+            popSound.play().catch(e => {});
+
+            // Vô hiệu hóa tất cả các nút để không cho bấm lại
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.disabled = true);
+            
+            btnElement.classList.add('selected');
+            
+            // Lưu kết quả
+            userChoices.push(selectedIndex);
+            if(selectedIndex === quizData[currentQuestion].correct) {
+                score++;
+            }
+
+            // Đợi 0.8s cho đẹp rồi tự nhảy câu tiếp theo
+            setTimeout(() => {
+                currentQuestion++;
+                if(currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 800);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            document.getElementById('score-text').innerText = `${score} / 20`;
+            
+            let msg = "";
+            if(score >= 16) msg = "🥰 SOULMATE ĐÍCH THỰC! Bé Thư đi guốc trong bụng anh Nhăn ròi nhaaa!";
+            else if(score >= 11) msg = "😘 Giỏi ghê ta! Rất là hiểu nhau luôn, chỉ sai sót vài chút xíu hoi!";
+            else if(score >= 6) msg = "🤔 Cũng hỉu sương sương, nma tối nay phải tâm sự nói chuyện với nhau nhiều hơn ròiiii!";
+            else msg = "🫣 Chít chít! Bé Thư có chắc là yêu đúng người hong dị chòi ời??? Phạt tối nay bao ăn!";
+            
+            document.getElementById('msg-text').innerText = msg;
+
+            // Render Review Bóc Phốt
+            const reviewContainer = document.getElementById('review-container');
+            let reviewHTML = '';
+
+            quizData.forEach((q, qIndex) => {
+                let thuChoice = userChoices[qIndex];
+                let nhanChoice = q.correct;
+                
+                reviewHTML += `<div class="review-item">
+                    <div class="review-q">${q.q}</div>`;
+                
+                q.options.forEach((opt, optIndex) => {
+                    let cssClass = 'review-opt';
+                    let badge = '';
+
+                    if(optIndex === nhanChoice && optIndex === thuChoice) {
+                        cssClass += ' both-match';
+                        badge = '<span class="badge bg-match">Bé Thư hiểu đúng ý anh Nhăn gòiii ❤️</span>';
+                    } else if (optIndex === thuChoice) {
+                        cssClass += ' thu-chose';
+                        badge = '<span class="badge bg-thu">Bé Thư chọn cái này ❌</span>';
+                    } else if (optIndex === nhanChoice) {
+                        cssClass += ' nhan-correct';
+                        badge = '<span class="badge bg-nhan">Sự thật của a Nhăn nè ✔️</span>';
+                    }
+
+                    reviewHTML += `<div class="${cssClass}">${opt} ${badge}</div>`;
+                });
+                
+                reviewHTML += `</div>`;
+            });
+            
+            reviewContainer.innerHTML = reviewHTML;
+        }
+    </script>
+</body>
+</html>
