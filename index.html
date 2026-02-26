@@ -6,6 +6,7 @@
     <title>Bé Thư hiểu anh Nhăn được bao nhiêu ròi? 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
+        /* CSS variables */
         :root {
             --primary: #ff758c;
             --secondary: #ff7eb3;
@@ -14,8 +15,10 @@
             --card-bg: rgba(255, 255, 255, 0.95);
         }
 
+        /* Global reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* Body styles */
         body {
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, var(--bg-color) 0%, #fff0f5 100%);
@@ -29,7 +32,7 @@
             position: relative;
         }
 
-        /* Nền trái tim bay bay */
+        /* Hearts background */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 0; opacity: 0.5;
@@ -37,6 +40,7 @@
             background-size: 80px 80px;
         }
 
+        /* Main container */
         .container {
             width: 100%; max-width: 600px;
             background: var(--card-bg);
@@ -46,27 +50,49 @@
             position: relative; z-index: 10;
             margin-top: 5vh;
             border: 4px dashed #ffb6c1;
+            text-align: center;
         }
 
+        /* Typography */
         h1, h2, h3 { color: var(--text-color); text-align: center; }
         
+        /* Helper classes */
         .hidden { display: none !important; }
 
-        /* MÀN HÌNH CHỜ */
-        #start-screen h1 { font-size: 32px; margin-bottom: 15px; line-height: 1.4;}
-        #start-screen p { text-align: center; font-size: 18px; font-weight: 600; color: #ff6b81; margin-bottom: 30px;}
+        /* Start screen styles */
+        #start-screen h1 { font-size: 32px; margin-bottom: 25px; line-height: 1.4;}
         
-        .btn-start {
+        /* Sticker styles */
+        .start-sticker, .result-sticker {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 30px auto;
+            display: block;
+            border: 4px solid var(--primary);
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        /* Button styles */
+        .btn-start, .btn-restart {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white; border: none; border-radius: 50px;
             padding: 15px 40px; font-size: 22px; font-weight: 900;
             cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
             animation: pulse 1.5s infinite;
+            margin-bottom: 20px;
+        }
+        .btn-restart {
+            background: linear-gradient(45deg, #a8c0ff, #3f2b96); /* Màu xanh cho nút làm lại */
+            box-shadow: 0 8px 20px rgba(63, 43, 150, 0.4);
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* MÀN HÌNH THI */
+        /* Quiz screen styles */
         .progress-text { text-align: center; font-size: 18px; font-weight: 900; color: #ff9a9e; margin-bottom: 20px; }
         .question-text { font-size: 20px; font-weight: 700; color: #2d3436; margin-bottom: 25px; text-align: justify; line-height: 1.5;}
         
@@ -85,13 +111,13 @@
         .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(0.98);}
         .option-btn:disabled { cursor: not-allowed; }
 
-        /* MÀN HÌNH KẾT QUẢ */
+        /* Result screen styles */
         #result-screen { text-align: center; }
         .score-box { background: #fff0f5; padding: 20px; border-radius: 20px; margin: 20px 0; border: 2px dashed var(--primary);}
         .score-box h1 { font-size: 50px; color: var(--primary); margin: 10px 0;}
         .msg { font-size: 18px; font-weight: 700; color: #ff6b81; margin-bottom: 30px;}
 
-        /* ĐÁP ÁN CHI TIẾT */
+        /* Review styles */
         .review-box { text-align: left; margin-top: 30px; }
         .review-item { background: #fafafa; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #eee; }
         .review-q { font-weight: 700; font-size: 16px; color: #333; margin-bottom: 15px;}
@@ -120,7 +146,9 @@
 
     <div class="container" id="start-screen">
         <h1>💕 Bé Thư hiểu anh Nhăn đòn dong được bao nhiêu ròi? 💕</h1>
-        <p>Bé có 60 phút để làm bài và chỉ được chọn 1 lần duy nhất, sai là không có đường lui đâu nhaaaa! 😘</p>
+        
+        <img src="image_2.png" alt="Anh Nhăn cute" class="start-sticker">
+        
         <button class="btn-start" onclick="startQuiz()">LÉT GÔ Ô Ô 🚀</button>
     </div>
 
@@ -132,6 +160,7 @@
     </div>
 
     <div class="container hidden" id="result-screen">
+        <img src="image_2.png" alt="Anh Nhăn cute" class="result-sticker">
         <h2>🎉 TADA! ĐÃ CÓ KẾT QUẢ 🎉</h2>
         <div class="score-box">
             <h3>Độ thấu hiểu của Bé Thư:</h3>
@@ -139,6 +168,8 @@
         </div>
         <div class="msg" id="msg-text">Lời nhắn nhủ...</div>
         
+        <button class="btn-restart" onclick="restartQuiz()">Làm lại từ đầu 🔄</button>
+
         <h3 style="margin-top: 40px; border-bottom: 2px dashed #ffb6c1; padding-bottom: 10px;">👇 BÓC PHỐT ĐÁP ÁN 👇</h3>
         <p style="font-size: 14px; margin-top: 10px; color: #555;">(Màu xanh: Sự thật của anh Nhăn | Màu đỏ: Bé Thư chọn sai)</p>
         <div class="review-box" id="review-container">
@@ -147,14 +178,13 @@
 
     <script>
         // ==========================================
-        // ANH NHĂN SỬA ĐÁP ÁN Ở CHỖ "correct: X" NHÉ! 
-        // Quy ước: 0 là A, 1 là B, 2 là C, 3 là D
+        // Dữ liệu câu hỏi
         // ==========================================
         const quizData = [
             {
                 q: "Câu 1: Đâu là 'món ăn chân ái' của anh Nhăn mỗi khi thấy buồn chán hay căng thẳng?",
                 options: ["A. Đồ ngọt (Trà sữa, bánh ngọt, socola...)", "B. Đồ ăn vặt (Bánh tráng trộn, cá viên chiên...)", "C. Đồ fastfood (Gà rán, pizza, hamburger...)", "D. Một món nước nóng hổi (Phở, bún bò, lẩu...)"],
-                correct: 0 // Đổi số này thành đáp án đúng của anh nhé
+                correct: 0 
             },
             {
                 q: "Câu 2: Thói quen buổi sáng thức dậy của anh Nhăn là gì?",
@@ -253,6 +283,9 @@
             }
         ];
 
+        // ==========================================
+        // Các biến trạng thái
+        // ==========================================
         let currentQuestion = 0;
         let score = 0;
         let userChoices = [];
@@ -260,9 +293,44 @@
         // Âm thanh
         const bgm = document.getElementById('bgm');
         const popSound = document.getElementById('pop-sound');
-        bgm.volume = 0.3; // Nhạc nền nhỏ vừa đủ
+        bgm.volume = 0.3;
 
+        // ==========================================
+        // Hàm khởi tạo và khôi phục trạng thái
+        // ==========================================
+        window.onload = function() {
+            // Kiểm tra xem có dữ liệu lưu trữ không
+            if (localStorage.getItem('quizProgress')) {
+                const progress = JSON.parse(localStorage.getItem('quizProgress'));
+                currentQuestion = progress.currentQuestion;
+                score = progress.score;
+                userChoices = progress.userChoices;
+
+                // Nếu đã hoàn thành quiz, hiển thị màn hình kết quả
+                if (currentQuestion >= quizData.length) {
+                    document.getElementById('start-screen').classList.add('hidden');
+                    showResult();
+                } else {
+                    // Nếu chưa hoàn thành, tiếp tục từ câu hỏi đang làm
+                    document.getElementById('start-screen').classList.add('hidden');
+                    document.getElementById('quiz-screen').classList.remove('hidden');
+                    loadQuestion();
+                }
+                // Thử phát nhạc nền (có thể bị trình duyệt chặn)
+                bgm.play().catch(e => console.log("Trình duyệt chặn autoplay audio"));
+            }
+        };
+
+        // ==========================================
+        // Các hàm chức năng chính
+        // ==========================================
         function startQuiz() {
+            // Xóa dữ liệu cũ nếu có
+            localStorage.removeItem('quizProgress');
+            currentQuestion = 0;
+            score = 0;
+            userChoices = [];
+
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             bgm.play().catch(e => console.log("Trình duyệt chặn autoplay audio"));
@@ -290,19 +358,23 @@
             popSound.currentTime = 0;
             popSound.play().catch(e => {});
 
-            // Vô hiệu hóa tất cả các nút để không cho bấm lại
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(b => b.disabled = true);
             
             btnElement.classList.add('selected');
             
-            // Lưu kết quả
             userChoices.push(selectedIndex);
             if(selectedIndex === quizData[currentQuestion].correct) {
                 score++;
             }
 
-            // Đợi 0.8s cho đẹp rồi tự nhảy câu tiếp theo
+            // Lưu tiến độ vào localStorage
+            localStorage.setItem('quizProgress', JSON.stringify({
+                currentQuestion: currentQuestion + 1,
+                score: score,
+                userChoices: userChoices
+            }));
+
             setTimeout(() => {
                 currentQuestion++;
                 if(currentQuestion < quizData.length) {
@@ -327,7 +399,6 @@
             
             document.getElementById('msg-text').innerText = msg;
 
-            // Render Review Bóc Phốt
             const reviewContainer = document.getElementById('review-container');
             let reviewHTML = '';
 
@@ -360,6 +431,24 @@
             });
             
             reviewContainer.innerHTML = reviewHTML;
+        }
+
+        function restartQuiz() {
+            // Xóa dữ liệu lưu trữ
+            localStorage.removeItem('quizProgress');
+            
+            // Reset các biến trạng thái
+            currentQuestion = 0;
+            score = 0;
+            userChoices = [];
+
+            // Quay lại màn hình chờ
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            
+            // Dừng nhạc nền nếu muốn
+            // bgm.pause();
+            // bgm.currentTime = 0;
         }
     </script>
 </body>
